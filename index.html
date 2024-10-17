@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Izračunajte svoj bazalni metabolizam (BMR) i ukupni dnevni energetski unos (TDEE) kako biste bolje razumeli svoje energetske potrebe.">
+    <meta name="keywords" content="BMR, TDEE, kalorije, zdravlje, ishrana, kalkulator">
+    <meta name="author" content="Ognjen Andjelic">
+    <meta property="og:title" content="Izračunaj BMR & TDEE">
+    <meta property="og:description"
+        content="Jednostavan kalkulator za izračunavanje vašeg bazalnog metabolizma i ukupnog dnevnog energetskog unosa.">
+
+    <title>Izračunaj BMR & TDEE</title>
+    <style>
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            font-family: Tahoma, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-container p {
+            margin-bottom: 15px;
+        }
+
+        .radio-group {
+            margin-bottom: 20px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .radio-item label {
+            font-size: 16px;
+            margin-left: 8px;
+        }
+
+        .form-container label {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .form-container input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            background-color: #0073e6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .form-container button:hover {
+            background-color: #005bb5;
+        }
+
+        #result {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .dark-theme {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .dark-theme .form-container {
+            background-color: #1e1e1e;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-theme .form-container input[type="number"] {
+            background-color: #2c2c2c;
+            color: #ffffff;
+            border: 1px solid #444;
+        }
+
+        .dark-theme .form-container button {
+            background-color: #0073e6;
+        }
+
+        .dark-theme .form-container button:hover {
+            background-color: #005bb5;
+        }
+
+        .dark-theme #result {
+            color: #ffffff;
+        }
+    </style>
+
+</head>
+
+<body>
+    <button id="themeToggle">Switch to Dark Theme</button>
+    <div class="form-container">
+        <div class="radio-group">
+            <div class="radio-item">
+                <input type="radio" id="men" name="menOrWomen" value="men" required>
+                <label for="men">Muškarci</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="women" name="menOrWomen" value="women" required>
+                <label for="women">Žene</label>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="height">Visina (cm):</label>
+            <input type="number" id="height" placeholder="Unesi visinu" required>
+        </div>
+        <div class="input-group">
+            <label for="weight">Težina (kg):</label>
+            <input type="number" id="weight" placeholder="Unesi težinu" required>
+        </div>
+        <div class="input-group">
+            <label for="age">Starost (godine):</label>
+            <input type="number" id="age" placeholder="Unesi starost" required>
+        </div>
+        <button id="calculateBMR">Izračunaj BMR</button>
+        <p>
+            <span id="result"></span>
+        </p>
+    </div>
+    <script>
+        /*
+        BMR for Men = 66.47 + (13.75 * weight [kg]) + (5.003 * size [cm]) − (6.755 * age [years])
+        BMR for Women = 655.1 + (9.563 * weight [kg]) + (1.85 * size [cm]) − (4.676 * age [years])
+        */
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("calculateBMR").addEventListener("click", calculateBMR);
+
+            function calculateBMR() {
+                const genderInput = document.querySelector('input[name="menOrWomen"]:checked');
+                const heightInput = document.getElementById("height");
+                const weightInput = document.getElementById("weight");
+                const ageInput = document.getElementById("age");
+
+                if (!genderInput || !heightInput || !weightInput || !ageInput) return;
+
+                const height = parseInt(heightInput.value);
+                const weight = parseInt(weightInput.value);
+                const age = parseInt(ageInput.value);
+                const gender = genderInput.value;
+
+                if (!height || !weight || !age || !gender) return;
+
+                const bmr = gender === "men"
+                    ? 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
+                    : 655.1 + (9.563 * weight) + (1.85 * height) - (4.676 * age);
+
+                document.getElementById("result").innerHTML = "Vaš BMR je: " + Math.round(bmr) + " kcal/day.";
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const themeToggle = document.getElementById("themeToggle");
+            const body = document.body;
+
+            const setTheme = () => {
+                const isDark = localStorage.getItem("theme") === "dark";
+                body.classList.toggle("dark-theme", isDark);
+                themeToggle.textContent = isDark ? "Switch to Light Theme" : "Switch to Dark Theme";
+            };
+
+            setTheme();
+
+            themeToggle.addEventListener("click", () => {
+                const isDark = body.classList.toggle("dark-theme");
+                localStorage.setItem("theme", isDark ? "dark" : "light");
+                themeToggle.textContent = isDark ? "Switch to Light Theme" : "Switch to Dark Theme";
+            });
+        });
+    </script>
+
+</body>
+
+</html>
