@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Izračunajte svoj bazalni metabolizam (BMR) i ukupni dnevni energetski unos (TDEE) kako biste bolje razumeli svoje energetske potrebe.">
-    <meta name="keywords" content="BMR, TDEE, kalorije, zdravlje, ishrana, kalkulator">
+        content="Calculate your Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) to better understand your energy needs.">
+    <meta name="keywords" content="BMR, TDEE, calories, health, nutrition, calculator">
     <meta name="author" content="Ognjen Andjelic">
-    <meta property="og:title" content="Izračunaj BMR & TDEE">
+    <meta property="og:title" content="Calculate BMR & TDEE">
     <meta property="og:description"
-        content="Jednostavan kalkulator za izračunavanje vašeg bazalnog metabolizma i ukupnog dnevnog energetskog unosa.">
+        content="A simple calculator to calculate your Basal Metabolic Rate and Total Daily Energy Expenditure.">
 
-    <title>Izračunaj BMR & TDEE</title>
+    <title>BMR & TDEE Calculator</title>
     <style>
         :root {
             --red-color: #810101;
@@ -136,57 +136,59 @@
 <body>
     <div class="form-container">
         <div class="radio-group-label">
-            <label>Pol:</label>
+            <label>Sex:</label>
         </div>
         <div class="radio-group">
             <div class="radio-item">
                 <input type="radio" id="men" name="menOrWomen" value="men" required>
-                <label for="men">Muškarci</label>
+                <label for="men">Men</label>
             </div>
             <div class="radio-item">
                 <input type="radio" id="women" name="menOrWomen" value="women" required>
-                <label for="women">Žene</label>
+                <label for="women">Women</label>
             </div>
         </div>
         <div class="input-group">
-            <label for="height">Visina (cm):</label>
-            <input type="number" id="height" placeholder="Unesi visinu" required>
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" placeholder="Enter the height" required>
         </div>
         <div class="input-group">
-            <label for="weight">Težina (kg):</label>
-            <input type="number" id="weight" placeholder="Unesi težinu" required>
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" placeholder="Enter the weight" required>
         </div>
         <div class="input-group">
-            <label for="age">Starost (godine):</label>
-            <input type="number" id="age" placeholder="Unesi starost" required>
+            <label for="age">Age (years):</label>
+            <input type="number" id="age" placeholder="Enter age" required>
         </div>
         <div class="radio-group-label">
             <label>Nivo aktivnosti:</label>
         </div>
+        <div class="radio-group-label">
+            <label>Activity Level:</label>
+        </div>
         <div class="radio-group">
             <div class="radio-item">
                 <input type="radio" id="activity1" name="activity" value="1">
-                <label for="activity1">Neaktivan (malo ili nimalo vežbanja + kancelarijski posao)</label>
+                <label for="activity1">Inactive (little or no exercise + desk job)</label>
             </div>
             <div class="radio-item">
                 <input type="radio" id="activity2" name="activity" value="2">
-                <label for="activity2">Malo aktivan (malo vežbanja 1-3 dana nedeljno)</label>
+                <label for="activity2">Lightly active (light exercise 1-3 days a week)</label>
             </div>
             <div class="radio-item">
                 <input type="radio" id="activity3" name="activity" value="3">
-                <label for="activity3">Umereno aktivan (umereno vežbanje 3-5 dana nedeljno)</label>
+                <label for="activity3">Moderately active (moderate exercise 3-5 days a week)</label>
             </div>
             <div class="radio-item">
                 <input type="radio" id="activity4" name="activity" value="4">
-                <label for="activity4">Veoma aktivan (veoma aktivno vežbanje 6-7 dana nedeljno)</label>
+                <label for="activity4">Very active (very intense exercise 6-7 days a week)</label>
             </div>
             <div class="radio-item">
                 <input type="radio" id="activity5" name="activity" value="5">
-                <label for="activity5">Ekstremno aktivan (ekstremno aktivno vežbanje, naporan fizički posao, treninzi 2
-                    puta dnevno)</label>
+                <label for="activity5">Extremely active (extreme exercise, physically demanding job, two workouts a day)</label>
             </div>
         </div>
-        <button id="calculateBMR">Izračunaj</button>
+        <button id="calculateBMR">Calculate</button>
         <p>
             <span id="result"></span>
         </p>
@@ -230,8 +232,8 @@
                 const tdee = bmr * activityMultipliers[activityLevel];
 
                 document.getElementById("result").innerHTML =
-                    "Vaš BMR je: " + Math.round(bmr) + " kcal/day.<br><br>" +
-                    "Vaš TDEE je: " + Math.round(tdee) + " kcal/day.";
+                    "Your BMR is: " + Math.round(bmr) + " kcal/day.<br><br>" +
+                    "Your TDEE is: " + Math.round(tdee) + " kcal/day.";
             }
         });
     </script>
