@@ -1,4 +1,4 @@
-# BMR & TDEE Calculator
+# BMR & TDEE Calculator </br> [![pages-build-deployment](https://github.com/crni99/bmr-tdee-calculator/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/crni99/bmr-tdee-calculator/actions/workflows/pages/pages-build-deployment)
 
 #### This project is a simple calculator that allows users to compute their Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) using the Mifflin-St Jeor equation.
 #### This information helps users better understand their energy needs and tailor their diet and exercise plans.
