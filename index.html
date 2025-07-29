@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description"
-        content="Calculate your Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) to better understand your energy needs.">
-    <meta name="keywords" content="BMR, TDEE, calories, health, nutrition, calculator">
-    <meta name="author" content="Ognjen Andjelic">
-    <meta property="og:title" content="Calculate BMR & TDEE">
+        content="Calculate your Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) to better understand your energy needs." />
+    <meta name="keywords" content="BMR, TDEE, calories, health, nutrition, calculator" />
+    <meta name="author" content="Ognjen Andjelic" />
+    <meta property="og:title" content="Calculate BMR & TDEE" />
     <meta property="og:description"
-        content="A simple calculator to calculate your Basal Metabolic Rate and Total Daily Energy Expenditure.">
-
+        content="A simple calculator to calculate your Basal Metabolic Rate and Total Daily Energy Expenditure." />
     <title>BMR & TDEE Calculator</title>
+
     <style>
         :root {
             --red-color: #810101;
@@ -23,25 +23,40 @@
             background-color: #121212;
             color: #ffffff;
             font-family: Tahoma, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main {
+            width: 100%;
+            max-width: 600px;
+            padding: 0px 20px 20px 20px;
+        }
+
+        h1 {
+            font-weight: 700;
+            text-align: center;
         }
 
         .form-container {
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 20px;
             background-color: #1e1e1e;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+            padding: 20px;
             border-radius: 8px;
-            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
         }
 
-        .form-container p {
-            margin-bottom: 15px;
-        }
-
-        .radio-group {
+        fieldset {
+            border: 1px solid #444;
+            border-radius: 6px;
             margin-bottom: 20px;
+            padding: 15px 20px;
+        }
+
+        legend {
+            font-weight: bold;
+            padding: 0 5px;
         }
 
         .radio-item {
@@ -51,7 +66,10 @@
         }
 
         .radio-item input[type="radio"] {
-            display: none;
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
         .radio-item label {
@@ -60,7 +78,8 @@
             position: relative;
             padding-left: 25px;
             cursor: pointer;
-            transition: color 0.3s;
+            user-select: none;
+            line-height: 1.2;
         }
 
         .radio-item label:before {
@@ -83,27 +102,31 @@
 
         .input-group {
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .radio-group-label {
-            margin-bottom: 10px;
+        label[for] {
+            margin-bottom: 6px;
+            font-weight: 600;
         }
 
-        .form-container input[type="number"],
-        .form-container select {
-            width: 100%;
+        small.helper-text {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 4px;
+        }
+
+        .form-container input[type="number"] {
             padding: 10px;
             border-radius: 4px;
             background-color: #2c2c2c;
             color: #ffffff;
             border: 1px solid #444;
             font-size: 16px;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
         }
 
-        .form-container input[type="number"]:focus,
-        .form-container select:focus {
+        .form-container input[type="number"]:focus {
             border-color: var(--red-color);
             outline: none;
         }
@@ -118,121 +141,255 @@
             font-size: 16px;
             margin-bottom: 10px;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         .form-container button:hover {
             background-color: var(--red-hover-color);
         }
 
-        #result {
-            font-size: 16px;
-            font-weight: bold;
+        .form-container button[type="reset"] {
+            background-color: #444;
+        }
+
+        .form-container button[type="reset"]:hover {
+            background-color: #666;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        #results {
             margin-top: 20px;
-            color: #ffffff;
+            padding: 15px 20px;
+            background-color: #2c2c2c;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(129, 1, 1, 0.6);
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #results.visible {
+            opacity: 1;
+        }
+
+        #copyResults {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #2c2c2c;
+            border: 1px solid var(--red-color);
+            color: #fff;
+        }
+
+        #copyResults:hover {
+            background-color: #3a3a3a;
+        }
+
+        .success-message {
+            color: #4caf50;
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .success-message.visible {
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
-    <div class="form-container">
-        <div class="radio-group-label">
-            <label>Sex:</label>
-        </div>
-        <div class="radio-group">
-            <div class="radio-item">
-                <input type="radio" id="men" name="menOrWomen" value="men" required>
-                <label for="men">Men</label>
+    <main>
+        <h1>BMR &amp; TDEE Calculator</h1>
+        <form class="form-container" id="bmrForm" aria-label="BMR and TDEE Calculator" novalidate>
+            <fieldset>
+                <legend>Sex:</legend>
+                <div class="radio-item">
+                    <input type="radio" id="men" name="gender" value="men" required />
+                    <label for="men">Men</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="women" name="gender" value="women" required />
+                    <label for="women">Women</label>
+                </div>
+                <div class="error-message" id="gender-error" aria-live="assertive"></div>
+            </fieldset>
+
+            <div class="input-group">
+                <label for="height">Height (cm):</label>
+                <input type="number" id="height" name="height" placeholder="Enter your height" required min="30"
+                    max="300" step="0.1" inputmode="decimal" />
+                <small class="helper-text">Please enter your height in centimeters.</small>
+                <div class="error-message" id="height-error"></div>
             </div>
-            <div class="radio-item">
-                <input type="radio" id="women" name="menOrWomen" value="women" required>
-                <label for="women">Women</label>
+
+            <div class="input-group">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" placeholder="Enter your weight" required min="2"
+                    max="600" step="0.1" inputmode="decimal" />
+                <small class="helper-text">Please enter your weight in kilograms.</small>
+                <div class="error-message" id="weight-error"></div>
             </div>
-        </div>
-        <div class="input-group">
-            <label for="height">Height (cm):</label>
-            <input type="number" id="height" placeholder="Enter the height" required>
-        </div>
-        <div class="input-group">
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight" placeholder="Enter the weight" required>
-        </div>
-        <div class="input-group">
-            <label for="age">Age (years):</label>
-            <input type="number" id="age" placeholder="Enter age" required>
-        </div>
-        <div class="radio-group-label">
-            <label>Activity Level:</label>
-        </div>
-        <div class="radio-group">
-            <div class="radio-item">
-                <input type="radio" id="activity1" name="activity" value="1">
-                <label for="activity1">Inactive (little or no exercise + desk job)</label>
+
+            <div class="input-group">
+                <label for="age">Age (years):</label>
+                <input type="number" id="age" name="age" placeholder="Enter your age" required min="1" max="120"
+                    inputmode="numeric" />
+                <small class="helper-text">Please enter your age in years.</small>
+                <div class="error-message" id="age-error"></div>
             </div>
-            <div class="radio-item">
-                <input type="radio" id="activity2" name="activity" value="2">
-                <label for="activity2">Lightly active (light exercise 1-3 days a week)</label>
-            </div>
-            <div class="radio-item">
-                <input type="radio" id="activity3" name="activity" value="3">
-                <label for="activity3">Moderately active (moderate exercise 3-5 days a week)</label>
-            </div>
-            <div class="radio-item">
-                <input type="radio" id="activity4" name="activity" value="4">
-                <label for="activity4">Very active (very intense exercise 6-7 days a week)</label>
-            </div>
-            <div class="radio-item">
-                <input type="radio" id="activity5" name="activity" value="5">
-                <label for="activity5">Extremely active (extreme exercise, physically demanding job, two workouts a day)</label>
-            </div>
-        </div>
-        <button id="calculateBMR">Calculate</button>
-        <p>
-            <span id="result"></span>
-        </p>
-    </div>
+
+            <fieldset>
+                <legend>Activity Level:</legend>
+                <div class="radio-item">
+                    <input type="radio" id="activity1" name="activity" value="1" required />
+                    <label for="activity1">Inactive (little or no exercise + desk job)</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="activity2" name="activity" value="2" />
+                    <label for="activity2">Lightly active (light exercise 1-3 days/week)</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="activity3" name="activity" value="3" />
+                    <label for="activity3">Moderately active (3-5 days/week)</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="activity4" name="activity" value="4" />
+                    <label for="activity4">Very active (6-7 days/week)</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="activity5" name="activity" value="5" />
+                    <label for="activity5">Extremely active (physical job, 2x/day training)</label>
+                </div>
+                <div class="error-message" id="activity-error" aria-live="assertive"></div>
+            </fieldset>
+
+            <button id="calculateBMR" type="submit">Calculate</button>
+            <button type="reset">Reset</button>
+            <div id="results" role="region" aria-live="polite"></div>
+            <button id="copyResults" type="button" style="display:none;">Copy Results</button>
+            <div id="copy-success" class="success-message" aria-live="polite"></div>
+        </form>
+    </main>
+
     <script>
-        /*
-        BMR for Men = 66.47 + (13.75 * weight [kg]) + (5.003 * size [cm]) − (6.755 * age [years])
-        BMR for Women = 655.1 + (9.563 * weight [kg]) + (1.85 * size [cm]) − (4.676 * age [years])
-        */
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("calculateBMR").addEventListener("click", calculateBMR);
+        const form = document.getElementById('bmrForm');
+        const resultsDiv = document.getElementById('results');
+        const copyBtn = document.getElementById('copyResults');
 
-            function calculateBMR() {
-                const genderInput = document.querySelector('input[name="menOrWomen"]:checked');
-                const heightInput = document.getElementById("height");
-                const weightInput = document.getElementById("weight");
-                const ageInput = document.getElementById("age");
-                const activityInput = document.querySelector('input[name="activity"]:checked');
+        function showError(id, message) {
+            document.getElementById(id).textContent = message;
+        }
 
-                if (!genderInput || !heightInput || !weightInput || !ageInput || !activityInput) return;
+        function clearErrors() {
+            ['gender-error', 'height-error', 'weight-error', 'age-error', 'activity-error'].forEach(id => {
+                showError(id, '');
+            });
+        }
 
-                const height = parseInt(heightInput.value);
-                const weight = parseInt(weightInput.value);
-                const age = parseInt(ageInput.value);
-                const gender = genderInput.value;
-                const activityLevel = parseInt(activityInput.value);
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            clearErrors();
+            resultsDiv.classList.remove('visible');
+            copyBtn.style.display = 'none';
 
-                if (!height || !weight || !age || !gender || !activityLevel) return;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value;
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseInt(document.getElementById('age').value, 10);
+            const activityLevel = document.querySelector('input[name="activity"]:checked')?.value;
 
-                const bmr = gender === "men"
-                    ? 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
-                    : 655.1 + (9.563 * weight) + (1.85 * height) - (4.676 * age);
+            let hasError = false;
 
-                const activityMultipliers = {
-                    1: 1.2,
-                    2: 1.375,
-                    3: 1.55,
-                    4: 1.725,
-                    5: 1.9
-                };
-                const tdee = bmr * activityMultipliers[activityLevel];
-
-                document.getElementById("result").innerHTML =
-                    "Your BMR is: " + Math.round(bmr) + " kcal/day.<br><br>" +
-                    "Your TDEE is: " + Math.round(tdee) + " kcal/day.";
+            if (!gender) {
+                showError('gender-error', 'Please select your sex.');
+                hasError = true;
             }
+
+            if (isNaN(height) || height < 30 || height > 300) {
+                showError('height-error', 'Height must be between 30 and 300 cm.');
+                hasError = true;
+            }
+
+            if (isNaN(weight) || weight < 2 || weight > 600) {
+                showError('weight-error', 'Weight must be between 2 and 600 kg.');
+                hasError = true;
+            }
+
+            if (isNaN(age) || age < 1 || age > 120) {
+                showError('age-error', 'Age must be between 1 and 120.');
+                hasError = true;
+            }
+
+            if (!activityLevel) {
+                showError('activity-error', 'Please select your activity level.');
+                hasError = true;
+            }
+
+            if (hasError) {
+                resultsDiv.textContent = '';
+                return;
+            }
+
+            const bmr = gender === 'men'
+                ? 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age)
+                : 655.1 + (9.563 * weight) + (1.85 * height) - (4.676 * age);
+
+            const activityMultipliers = {
+                1: 1.2,
+                2: 1.375,
+                3: 1.55,
+                4: 1.725,
+                5: 1.9
+            };
+            const tdee = bmr * activityMultipliers[activityLevel];
+
+            resultsDiv.innerHTML = `
+                🔥 Your BMR is: <strong>${Math.round(bmr).toLocaleString()} kcal/day</strong><br>
+                ⚡ Your TDEE is: <strong>${Math.round(tdee).toLocaleString()} kcal/day</strong>
+            `;
+            resultsDiv.classList.add('visible');
+            copyBtn.style.display = 'block';
         });
+
+        form.addEventListener('reset', () => {
+            clearErrors();
+            resultsDiv.textContent = '';
+            resultsDiv.classList.remove('visible');
+            copyBtn.style.display = 'none';
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const successMsg = document.getElementById('copy-success');
+            navigator.clipboard.writeText(resultsDiv.textContent)
+                .then(() => {
+                    successMsg.textContent = '✅ Results copied to clipboard!';
+                    successMsg.classList.add('visible');
+
+                    setTimeout(() => {
+                        successMsg.classList.remove('visible');
+                        successMsg.textContent = '';
+                    }, 3000);
+                })
+                .catch(() => {
+                    successMsg.textContent = '❌ Failed to copy results.';
+                    successMsg.classList.add('visible');
+
+                    setTimeout(() => {
+                        successMsg.classList.remove('visible');
+                        successMsg.textContent = '';
+                    }, 3000);
+                });
+        });
+
     </script>
 </body>
 
