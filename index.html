@@ -356,8 +356,8 @@
             const tdee = bmr * activityMultipliers[activityLevel];
 
             resultsDiv.innerHTML = `
-                🔥 <strong>Your BMR is: ${Math.round(bmr).toLocaleString('sr-Latn-RS')} kcal/day</strong><br>
-                ⚡ <strong>Your TDEE is: ${Math.round(tdee).toLocaleString('sr-Latn-RS')} kcal/day</strong>
+                <div>🧬&nbsp;<strong>Your BMR is: ${Math.round(bmr).toLocaleString('sr-Latn-RS')} kcal/day</strong></div>
+                <div style="margin-top: 10px;">🔋&nbsp;<strong>Your TDEE is: ${Math.round(tdee).toLocaleString('sr-Latn-RS')} kcal/day</strong></div>
             `;
             resultsDiv.classList.add('visible');
             copyBtn.style.display = 'block';
